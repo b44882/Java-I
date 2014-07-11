@@ -2,8 +2,13 @@ package com.fullsail.b_gear_fundamentals;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.ZoomButtonsController;
 
 import java.util.HashSet;
 
@@ -11,13 +16,36 @@ import java.util.HashSet;
 public class SubmitActivity extends Activity {
 
     HashSet<String> submitSet = new HashSet<String>();
+
     String submitString;
+    final String TAG = "Submit Activity Demo";
+
+    private TextView submitEditText;
+    private TextView resultTextView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basicactivity);
+
+        //TextViews
+        submitEditText = (TextView) findViewById(R.id.submitEditText);
+        resultTextView = (TextView) findViewById(R.id.restultTextView);
+
+        //Buttons
+        Button submitButton = (Button) findViewById(R.id.submitButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "Button Clicked");
+                submitString = String.valueOf(submitEditText.getText());
+
+                submitSet.add(submitString);
+                resultTextView.setText(submitString);
+            }
+        });
+
     }
 
 
