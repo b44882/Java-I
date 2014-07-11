@@ -18,10 +18,13 @@ public class SubmitActivity extends Activity {
     HashSet<String> submitSet = new HashSet<String>();
 
     String submitString;
+    String countString;
     final String TAG = "Submit Activity Demo";
 
     private TextView submitEditText;
     private TextView resultTextView;
+    private TextView countTextView;
+    private TextView averageTextView;
 
 
     @Override
@@ -32,6 +35,7 @@ public class SubmitActivity extends Activity {
         //TextViews
         submitEditText = (TextView) findViewById(R.id.submitEditText);
         resultTextView = (TextView) findViewById(R.id.restultTextView);
+        countTextView = (TextView) findViewById(R.id.countTextView);
 
         //Buttons
         Button submitButton = (Button) findViewById(R.id.submitButton);
@@ -43,6 +47,12 @@ public class SubmitActivity extends Activity {
 
                 submitSet.add(submitString);
                 resultTextView.setText(submitString);
+
+                countString = String.valueOf(submitSet.size());
+
+                countTextView.setText(countString);
+
+
             }
         });
 
