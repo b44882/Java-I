@@ -4,5 +4,6 @@
     <string name="app_name">B_Gear_Fundamentals</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="submit">Submit</string>
 
 </resources>

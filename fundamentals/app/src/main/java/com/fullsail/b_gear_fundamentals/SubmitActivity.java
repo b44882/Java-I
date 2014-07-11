@@ -5,8 +5,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.HashSet;
 
-public class basicactivity extends Activity {
+
+public class SubmitActivity extends Activity {
+
+    HashSet<String> submitSet = new HashSet<String>();
+    String submitString;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
