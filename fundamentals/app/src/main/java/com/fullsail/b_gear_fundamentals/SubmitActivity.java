@@ -6,10 +6,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ZoomButtonsController;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 
@@ -17,15 +20,18 @@ public class SubmitActivity extends Activity {
 
     HashSet<String> submitSet = new HashSet<String>();
 
-    String submitString;
     String countString;
+    String averageString;
     final String TAG = "Submit Activity Demo";
+
+    Integer average;
 
     private TextView submitEditText;
     private TextView resultTextView;
     private TextView countTextView;
     private TextView averageTextView;
 
+    private ListView submitListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,25 +40,17 @@ public class SubmitActivity extends Activity {
 
         //TextViews
         submitEditText = (TextView) findViewById(R.id.submitEditText);
-        resultTextView = (TextView) findViewById(R.id.restultTextView);
+        resultTextView = (TextView) findViewById(R.id.resultTextView);
         countTextView = (TextView) findViewById(R.id.countTextView);
+        averageTextView = (TextView) findViewById(R.id.averageTextView);
+        submitListView = (ListView) findViewById(R.id.submitListView);
 
         //Buttons
         Button submitButton = (Button) findViewById(R.id.submitButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "Button Clicked");
-                submitString = String.valueOf(submitEditText.getText());
-
-                submitSet.add(submitString);
-                resultTextView.setText(submitString);
-
-                countString = String.valueOf(submitSet.size());
-
-                countTextView.setText(countString);
-
-
+                calculateResult(String.valueOf(submitEditText.getText()));
             }
         });
 
@@ -76,5 +74,38 @@ public class SubmitActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void calculateResult(String result)
+    {
+        submitSet.add(result);
+        resultTextView.setText(result);
+
+        countString = String.valueOf(submitSet.size());
+        countTextView.setText(countString);
+
+        addList(submitSet);
+
+        average = averageLength(submitSet);
+        averageString = String.valueOf(average);
+        averageTextView.setText(averageString);
+    }
+    public Integer averageLength(HashSet<String> setList)
+    {
+        ArrayList<String> setToList = new ArrayList<String>(setList);
+        Integer length = 0;
+        String item;
+        for (int i = 0; i < setList.size(); i++)
+        {
+            item = setToList.get(i);
+            length += item.length();
+        }
+        length = length / setList.size();
+        return length;
+    }
+    public void addList(HashSet<String> setList)
+    {
+        ArrayList<String> setToList = new ArrayList<String>(setList);
+        ArrayAdapter<String>submitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,setToList);
+        submitListView.setAdapter(submitAdapter);
     }
 }
