@@ -52,7 +52,7 @@ public class SubmitActivity extends Activity {
         Button submitButton = (Button) findViewById(R.id.submitButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) {  //Button selected
                 calculateResult(String.valueOf(submitEditText.getText()));
             }
         });
@@ -91,45 +91,45 @@ public class SubmitActivity extends Activity {
     }
     public void calculateResult(String result)  //Calculates results after Submit Button is selected
     {
-        submitSet.add(result);
-        showResult(result);
+        submitSet.add(result);  //Adds result into a set
+        showResult(result);     //Shows Result on a bottom text field
 
-        countString = String.valueOf(submitSet.size());
-        countTextView.setText(countString);
+        countString = String.valueOf(submitSet.size());  //Counts the size of the set
+        countTextView.setText(countString);              //Displays count
 
-        addList(submitSet);
+        addList(submitSet);                              //Method that updates list from set
 
-        average = averageLength(submitSet);
-        averageString = String.valueOf(average);
-        averageTextView.setText(averageString);
+        average = averageLength(submitSet);              //Integer Value that contains average of word length from set
+        averageString = String.valueOf(average);         //Converts Average Integer into a String
+        averageTextView.setText(averageString);          //Displays Average word length of set
 
-        submitEditText.setText("");
+        submitEditText.setText("");                      //Resets text back to blank.
     }
     public Integer averageLength(HashSet<String> setList) //Returns average length of User Submitted Items
     {
-        ArrayList<String> setToList = new ArrayList<String>(setList);
-        Integer length = 0;
-        String item;
-        for (int i = 0; i < setList.size(); i++)
+        ArrayList<String> setToList = new ArrayList<String>(setList);  //Converts set to array for easier conversion
+        Integer length = 0; //Resets length to 0
+        String item;        //Creates item string.
+        for (int i = 0; i < setList.size(); i++) //For loop that goes through size of set
         {
-            item = setToList.get(i);
-            length += item.length();
+            item = setToList.get(i);             //Adds item to converted set
+            length += item.length();             //Adds onto on going length integer
         }
-        length = length / setList.size();
-        return length;
+        length = length / setList.size();       //Gets average by dividing the sum of all letters of every string in the set by the length of the set
+        return length;                          //Returns the average length
     }
     public void addList(HashSet<String> setList)  //Adds items to the listview
     {
-        ArrayList<String> setToList = new ArrayList<String>(setList);
-        ArrayAdapter<String>submitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,setToList);
-        submitListView.setAdapter(submitAdapter);
+        ArrayList<String> setToList = new ArrayList<String>(setList);  //Converts set to array for easier conversion
+        ArrayAdapter<String>submitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,setToList);  //Creates local adapter to apply to the listview
+        submitListView.setAdapter(submitAdapter); //Applies adapter to the listview to display results
     }
-    public void showResult(String result)
+    public void showResult(String result)  //Method that shows alert in a bottom text field
     {
-        resultTextView.setText(result);
+        resultTextView.setText(result); //Shows the result in a bottom textfield
     }
 
-    public void showAlert (String alert)
+    public void showAlert (String alert) //Method that displays alert box
     {
         new AlertDialog.Builder(this)
                 .setTitle("Display List Item")
