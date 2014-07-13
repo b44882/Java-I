@@ -1,6 +1,8 @@
 package com.fullsail.b_gear_fundamentals;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -58,10 +60,11 @@ public class SubmitActivity extends Activity {
         //ListView
         submitListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) { //ListView Item Selected
               Log.i(TAG, "List Item Selected");
               TextView selected = (TextView) view;
               showResult(String.valueOf(selected.getText()));
+              showAlert(String.valueOf(selected.getText()));
             }
         });
 
@@ -86,7 +89,7 @@ public class SubmitActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void calculateResult(String result)
+    public void calculateResult(String result)  //Calculates results after Submit Button is selected
     {
         submitSet.add(result);
         showResult(result);
@@ -99,8 +102,10 @@ public class SubmitActivity extends Activity {
         average = averageLength(submitSet);
         averageString = String.valueOf(average);
         averageTextView.setText(averageString);
+
+        submitEditText.setText("");
     }
-    public Integer averageLength(HashSet<String> setList)
+    public Integer averageLength(HashSet<String> setList) //Returns average length of User Submitted Items
     {
         ArrayList<String> setToList = new ArrayList<String>(setList);
         Integer length = 0;
@@ -113,7 +118,7 @@ public class SubmitActivity extends Activity {
         length = length / setList.size();
         return length;
     }
-    public void addList(HashSet<String> setList)
+    public void addList(HashSet<String> setList)  //Adds items to the listview
     {
         ArrayList<String> setToList = new ArrayList<String>(setList);
         ArrayAdapter<String>submitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,setToList);
@@ -122,5 +127,20 @@ public class SubmitActivity extends Activity {
     public void showResult(String result)
     {
         resultTextView.setText(result);
+    }
+
+    public void showAlert (String alert)
+    {
+        new AlertDialog.Builder(this)
+                .setTitle("Display List Item")
+                .setMessage(alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+
+                    }
+                })
+                .setIcon(android.R.drawable.ic_input_get)
+                .show();
     }
 }
