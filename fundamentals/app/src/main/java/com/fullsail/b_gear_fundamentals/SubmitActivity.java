@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -54,6 +55,16 @@ public class SubmitActivity extends Activity {
             }
         });
 
+        //ListView
+        submitListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+              Log.i(TAG, "List Item Selected");
+              TextView selected = (TextView) view;
+              showResult(String.valueOf(selected.getText()));
+            }
+        });
+
     }
 
 
@@ -78,7 +89,7 @@ public class SubmitActivity extends Activity {
     public void calculateResult(String result)
     {
         submitSet.add(result);
-        resultTextView.setText(result);
+        showResult(result);
 
         countString = String.valueOf(submitSet.size());
         countTextView.setText(countString);
@@ -107,5 +118,9 @@ public class SubmitActivity extends Activity {
         ArrayList<String> setToList = new ArrayList<String>(setList);
         ArrayAdapter<String>submitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,setToList);
         submitListView.setAdapter(submitAdapter);
+    }
+    public void showResult(String result)
+    {
+        resultTextView.setText(result);
     }
 }
