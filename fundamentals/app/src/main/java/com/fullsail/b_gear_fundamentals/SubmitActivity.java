@@ -2,6 +2,7 @@ package com.fullsail.b_gear_fundamentals;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ZoomButtonsController;
 
 import java.util.ArrayList;
@@ -30,7 +32,6 @@ public class SubmitActivity extends Activity {
     Integer average;
 
     private TextView submitEditText;
-    private TextView resultTextView;
     private TextView countTextView;
     private TextView averageTextView;
 
@@ -43,7 +44,6 @@ public class SubmitActivity extends Activity {
 
         //TextViews
         submitEditText = (TextView) findViewById(R.id.submitEditText);
-        resultTextView = (TextView) findViewById(R.id.resultTextView);
         countTextView = (TextView) findViewById(R.id.countTextView);
         averageTextView = (TextView) findViewById(R.id.averageTextView);
         submitListView = (ListView) findViewById(R.id.submitListView);
@@ -63,7 +63,6 @@ public class SubmitActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) { //ListView Item Selected
               Log.i(TAG, "List Item Selected");
               TextView selected = (TextView) view;
-              showResult(String.valueOf(selected.getText()));
               showAlert(String.valueOf(selected.getText()));
             }
         });
@@ -92,16 +91,17 @@ public class SubmitActivity extends Activity {
     public void calculateResult(String result)  //Calculates results after Submit Button is selected
     {
         submitSet.add(result);  //Adds result into a set
-        showResult(result);     //Shows Result on a bottom text field
 
         countString = String.valueOf(submitSet.size());  //Counts the size of the set
-        countTextView.setText(countString);              //Displays count
+        countTextView.setText("Set Count:" + countString);              //Displays count
 
         addList(submitSet);                              //Method that updates list from set
 
         average = averageLength(submitSet);              //Integer Value that contains average of word length from set
         averageString = String.valueOf(average);         //Converts Average Integer into a String
-        averageTextView.setText(averageString);          //Displays Average word length of set
+        averageTextView.setText("Average Length:" + averageString);          //Displays Average word length of set
+
+        showToast(result, "was added.");
 
         submitEditText.setText("");                      //Resets text back to blank.
     }
@@ -122,11 +122,9 @@ public class SubmitActivity extends Activity {
     {
         ArrayList<String> setToList = new ArrayList<String>(setList);  //Converts set to array for easier conversion
         ArrayAdapter<String>submitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,setToList);  //Creates local adapter to apply to the listview
+
+        submitAdapter.add("testadd");
         submitListView.setAdapter(submitAdapter); //Applies adapter to the listview to display results
-    }
-    public void showResult(String result)  //Method that shows alert in a bottom text field
-    {
-        resultTextView.setText(result); //Shows the result in a bottom textfield
     }
 
     public void showAlert (String alert) //Method that displays alert box
@@ -140,7 +138,18 @@ public class SubmitActivity extends Activity {
 
                     }
                 })
-                .setIcon(android.R.drawable.ic_input_get)
+                .setIcon(android.R.drawable.sym_def_app_icon)
                 .show();
+    }
+    public void showToast(String item, String action)
+    {
+        Context context = getApplicationContext();
+        CharSequence text = item + " " + action;
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+
+        toast.show();
+
     }
 }
