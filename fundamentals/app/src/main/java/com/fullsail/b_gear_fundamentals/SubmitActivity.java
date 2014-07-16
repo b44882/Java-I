@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ZoomButtonsController;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -25,11 +26,13 @@ public class SubmitActivity extends Activity {
 
     HashSet<String> submitSet = new HashSet<String>();
 
+    ArrayAdapter<String>submitAdapter;
+
     String countString;
     String averageString;
     final String TAG = "Submit Activity Demo";
 
-    Integer average;
+    Float average;
 
     private TextView submitEditText;
     private TextView countTextView;
@@ -69,7 +72,6 @@ public class SubmitActivity extends Activity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -90,55 +92,85 @@ public class SubmitActivity extends Activity {
     }
     public void calculateResult(String result)  //Calculates results after Submit Button is selected
     {
-        submitSet.add(result);  //Adds result into a set
+        Integer beforeCheck = submitSet.size(); //Check size of Set before adding result
+        submitSet.add(result);                  //Adds result into a set
+        Integer afterCheck = submitSet.size();  //Check size of Set after adding result
 
-        countString = String.valueOf(submitSet.size());  //Counts the size of the set
-        countTextView.setText("Set Count:" + countString);              //Displays count
+        if (!beforeCheck.equals(afterCheck)) //If size of the set changes, then continue operation, otherwise, clear text.
+        {
+            if(result != "") {
 
-        addList(submitSet);                              //Method that updates list from set
-
-        average = averageLength(submitSet);              //Integer Value that contains average of word length from set
-        averageString = String.valueOf(average);         //Converts Average Integer into a String
-        averageTextView.setText("Average Length:" + averageString);          //Displays Average word length of set
-
-        showToast(result, "was added.");
+                if (submitAdapter != null)  //Checks if adapter has been created yet.
+                {
+                    addList(result);
+                } else {
+                    ArrayList<String> setToList = new ArrayList<String>(submitSet);  //Converts set to array for easier conversion
+                    submitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, setToList); //Creates local adapter to apply to the listview
+                    submitListView.setAdapter(submitAdapter);
+                }
+                showToast(result, "was added.");
+                getCount();
+                getAverage();
+            } else {
+                showToast(result, "Blank entries are not allowed.");
+            }
+        }
+        else
+        {
+            showToast(result, "was a duplicate and not added.");
+        }
 
         submitEditText.setText("");                      //Resets text back to blank.
     }
-    public Integer averageLength(HashSet<String> setList) //Returns average length of User Submitted Items
+    public void getCount()
     {
-        ArrayList<String> setToList = new ArrayList<String>(setList);  //Converts set to array for easier conversion
-        Integer length = 0; //Resets length to 0
+        countString = String.valueOf(submitSet.size());    //Counts the size of the set
+        countTextView.setText("Set Count:" + countString); //Displays count
+    }
+    public void getAverage() //Returns average length of User Submitted Items
+    {
+        ArrayList<String> setToList = new ArrayList<String>(submitSet);  //Converts set to array for easier conversion
+        Float length = (float) 0; //Resets length to 0
         String item;        //Creates item string.
-        for (int i = 0; i < setList.size(); i++) //For loop that goes through size of set
+        for (int i = 0; i < submitSet.size(); i++) //For loop that goes through size of set
         {
             item = setToList.get(i);             //Adds item to converted set
             length += item.length();             //Adds onto on going length integer
         }
-        length = length / setList.size();       //Gets average by dividing the sum of all letters of every string in the set by the length of the set
-        return length;                          //Returns the average length
-    }
-    public void addList(HashSet<String> setList)  //Adds items to the listview
-    {
-        ArrayList<String> setToList = new ArrayList<String>(setList);  //Converts set to array for easier conversion
-        ArrayAdapter<String>submitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,setToList);  //Creates local adapter to apply to the listview
+        length = length / submitSet.size();       //Gets average by dividing the sum of all letters of every string in the set by the length of the set
 
-        submitAdapter.add("testadd");
+        average = length;              //Integer Value that contains average of word length from set
+        averageString = String.valueOf(average);         //Converts Average Integer into a String
+        averageTextView.setText("Average Length:" + averageString);          //Displays Average word length of set
+    }
+
+
+    public void addList(String item)  //Adds items to the listview
+    {
+        submitAdapter.add(item);
         submitListView.setAdapter(submitAdapter); //Applies adapter to the listview to display results
     }
 
-    public void showAlert (String alert) //Method that displays alert box
+    public void showAlert (final String alert) //Method that displays alert box
     {
         new AlertDialog.Builder(this)
                 .setTitle("Display List Item")
                 .setMessage(alert)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which)
-                    {
+                .setIcon(android.R.drawable.sym_def_app_icon)
+                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
 
                     }
                 })
-                .setIcon(android.R.drawable.sym_def_app_icon)
+                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        submitAdapter.remove(alert);
+                        submitSet.remove(alert);
+                        showToast(alert, "was deleted.");
+                        getCount();
+                        getAverage();
+                    }
+                })
                 .show();
     }
     public void showToast(String item, String action)
