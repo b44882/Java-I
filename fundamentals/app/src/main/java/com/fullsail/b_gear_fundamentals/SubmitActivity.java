@@ -98,22 +98,17 @@ public class SubmitActivity extends Activity {
 
         if (!beforeCheck.equals(afterCheck)) //If size of the set changes, then continue operation, otherwise, clear text.
         {
-            if(result != "") {
-
-                if (submitAdapter != null)  //Checks if adapter has been created yet.
-                {
-                    addList(result);
-                } else {
-                    ArrayList<String> setToList = new ArrayList<String>(submitSet);  //Converts set to array for easier conversion
-                    submitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, setToList); //Creates local adapter to apply to the listview
-                    submitListView.setAdapter(submitAdapter);
-                }
-                showToast(result, "was added.");
-                getCount();
-                getAverage();
+            if (submitAdapter != null)  //Checks if adapter has been created yet.
+            {
+                addList(result);
             } else {
-                showToast(result, "Blank entries are not allowed.");
+                ArrayList<String> setToList = new ArrayList<String>(submitSet);  //Converts set to array for easier conversion
+                submitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, setToList); //Creates local adapter to apply to the listview
+                submitListView.setAdapter(submitAdapter);
             }
+            showToast(result, "was added.");
+            getCount();
+            getAverage();
         }
         else
         {
@@ -157,18 +152,18 @@ public class SubmitActivity extends Activity {
                 .setTitle("Display List Item")
                 .setMessage(alert)
                 .setIcon(android.R.drawable.sym_def_app_icon)
-                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                })
-                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         submitAdapter.remove(alert);
                         submitSet.remove(alert);
                         showToast(alert, "was deleted.");
                         getCount();
                         getAverage();
+                    }
+                })
+                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
                     }
                 })
                 .show();
