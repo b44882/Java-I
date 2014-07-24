@@ -1,10 +1,77 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/game_title"
-    style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context=".GameDetailFragment" />
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:orientation="vertical"
+    android:baselineAligned="false">
+
+    <TextView
+        style="?android:attr/textAppearanceLarge"
+        tools:context=".GameDetailFragment"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/game_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textIsSelectable="true"
+        android:text="Title"
+        android:textSize="16dp" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/game_developer"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textIsSelectable="true"
+        tools:context=".GameDetailFragment"
+        android:text="Company"
+        android:textSize="16dp" />
+
+    <TextView
+        style="?android:attr/textAppearanceLarge"
+        tools:context=".GameDetailFragment"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/game_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textIsSelectable="true"
+        android:text="Date"
+        android:textSize="16dp" />
+
+    <TextView
+        style="?android:attr/textAppearanceLarge"
+        tools:context=".GameDetailFragment"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/game_director"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textIsSelectable="true"
+        android:text="Director"
+        android:textSize="16dp" />
+
+    <TextView
+        style="?android:attr/textAppearanceLarge"
+        tools:context=".GameDetailFragment"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/game_composer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textIsSelectable="true"
+        android:text="Composer"
+        android:textSize="16dp" />
+</LinearLayout>
+
+
+
 

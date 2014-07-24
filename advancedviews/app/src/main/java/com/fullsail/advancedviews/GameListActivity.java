@@ -1,10 +1,10 @@
 package com.fullsail.advancedviews;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.app.Activity;
-
-
+import android.widget.Toast;
 
 
 /**
@@ -31,53 +31,28 @@ public class GameListActivity extends Activity
      * device.
      */
     private boolean mTwoPane;
+    String orientation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_list);
-
-        if (findViewById(R.id.game_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-large and
-            // res/values-sw600dp). If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-
-            // In two-pane mode, list items should be given the
-            // 'activated' state when touched.
-            ((GameListFragment) getFragmentManager()
-                    .findFragmentById(R.id.game_list))
-                    .setActivateOnItemClick(true);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setContentView(R.layout.activity_game_list_land);
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            setContentView(R.layout.activity_game_list);
         }
-
-        // TODO: If exposing deep links into your app, handle intents here.
     }
-
     /**
      * Callback method from {@link GameListFragment.Callbacks}
      * indicating that the item with the given ID was selected.
      */
     @Override
     public void onItemSelected(String id) {
-        if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(GameDetailFragment.ARG_ITEM_ID, id);
-            GameDetailFragment fragment = new GameDetailFragment();
-            fragment.setArguments(arguments);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.game_detail_container, fragment)
-                    .commit();
+        // In single-pane mode, simply start the detail activity
+        // for the selected item ID.
+        Intent detailIntent = new Intent(this, GameDetailActivity.class);
+        detailIntent.putExtra(GameDetailFragment.ARG_ITEM_ID, id);
+        startActivity(detailIntent);
 
-        } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
-            Intent detailIntent = new Intent(this, GameDetailActivity.class);
-            detailIntent.putExtra(GameDetailFragment.ARG_ITEM_ID, id);
-            startActivity(detailIntent);
-        }
     }
 }

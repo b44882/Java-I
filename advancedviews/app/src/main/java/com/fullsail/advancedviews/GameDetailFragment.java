@@ -10,12 +10,7 @@ import android.widget.TextView;
 
 import com.fullsail.advancedviews.game.GameContent;
 
-/**
- * A fragment representing a single Game detail screen.
- * This fragment is either contained in a {@link GameListActivity}
- * in two-pane mode (on tablets) or a {@link GameDetailActivity}
- * on handsets.
- */
+
 public class GameDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
@@ -24,7 +19,7 @@ public class GameDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The game content this fragment is presenting.
      */
     private GameContent.GameItem mItem;
 
@@ -52,9 +47,13 @@ public class GameDetailFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_game_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        // Show fragments of items in multiple text views.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.game_title)).setText(mItem.title);
+            ((TextView) rootView.findViewById(R.id.game_developer)).setText(mItem.developer);
+            ((TextView) rootView.findViewById(R.id.game_date)).setText(mItem.release);
+            ((TextView) rootView.findViewById(R.id.game_director)).setText(mItem.director);
+            ((TextView) rootView.findViewById(R.id.game_composer)).setText(mItem.composer);
         }
 
         return rootView;
