@@ -64,6 +64,7 @@ public class home extends Activity {
                 if (connection == true){
                     TextView searchEditText = (TextView) findViewById (R.id.searchTextField);
                     String symbol = searchEditText.getText().toString();
+                    symbol = symbol.replace(" ", "+");
                     try{
                         String urlString = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + symbol + "&type=video&videoCaption=closedCaption&key=AIzaSyD0m9TrFUsKqIwYCCyoX3ERVlSYTWm-FZk";
                         URL queryURL = new URL(urlString);
