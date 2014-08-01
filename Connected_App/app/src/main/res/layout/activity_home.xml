@@ -8,54 +8,90 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".home">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/errorTextview"
-        android:text="result"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="18dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:weightSum="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/errorTextview"
+            android:text="result"
+            android:textSize="12dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/titleTextView"
+            android:layout_toEndOf="@+id/titleTextView" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchTextField"
-        android:layout_below="@+id/errorTextview"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="34dp"
-        android:layout_toStartOf="@+id/searchButton"
-        android:layout_toLeftOf="@+id/searchButton" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Channel Search"
-        android:id="@+id/searchButton"
-        android:layout_alignTop="@+id/searchTextField"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/searchTextField" />
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchListView"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:choiceMode="none"
-        android:layout_below="@+id/progressBar" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchTextField"
+            android:layout_below="@+id/errorTextview"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/searchButton"
+            android:layout_toLeftOf="@+id/searchButton"
+            android:layout_weight="0.81" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Channel Search"
+            android:id="@+id/searchButton"
+            android:layout_alignTop="@+id/searchTextField"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/searchTextField" />
+        </LinearLayout>
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_below="@+id/searchTextField"
-        android:layout_centerHorizontal="true"
-        android:indeterminate="false"
-        android:visibility="invisible" />
+
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_below="@+id/searchTextField"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="false"
+            android:visibility="invisible"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/titleTextView"
+            android:layout_below="@+id/progressBar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/channelTextView"
+            android:layout_below="@+id/titleTextView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="16dp" />
+
+        <com.loopj.android.image.SmartImageView
+            android:id="@+id/youtubeImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/channelTextView"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </LinearLayout>
+
 
 </RelativeLayout>
