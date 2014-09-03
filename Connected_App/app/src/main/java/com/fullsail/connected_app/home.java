@@ -10,26 +10,19 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.loopj.android.image.SmartImage;
 import com.loopj.android.image.SmartImageView;
-
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class home extends Activity {
@@ -66,7 +59,7 @@ public class home extends Activity {
                     String symbol = searchEditText.getText().toString();
                     symbol = symbol.replace(" ", "+");
                     try{
-                        String urlString = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + symbol + "&type=video&videoCaption=closedCaption&key=AIzaSyD0m9TrFUsKqIwYCCyoX3ERVlSYTWm-FZk";
+                        String urlString = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" + symbol + "&type=video&videoCaption=closedCaption&key=AIzaSyD0m9TrFUsKqIwYCCyoX3ERVlSYTWm-FZk";
                         URL queryURL = new URL(urlString);
                         new GetSearchTask().execute(queryURL);
 
@@ -117,7 +110,7 @@ public class home extends Activity {
                 }
             }
             JSONObject apiData;
-            JSONArray apiDataArray;
+
             try{
                 apiData = new JSONObject(jsonString);
             } catch (Exception e){
@@ -127,8 +120,6 @@ public class home extends Activity {
             }
 
             try{
-                apiDataArray = (apiData!= null) ? apiData.getJSONArray("items") : null;
-                apiData = (apiDataArray != null) ? apiDataArray.getJSONObject(0).getJSONObject("snippet") : null;
                 success = true;
                 resultMessage ="API JSON data received";
             } catch (Exception e){
@@ -143,14 +134,23 @@ public class home extends Activity {
         protected void onPostExecute(JSONObject apiData){
 
             JSONObject youtubeImageObject;
+            JSONObject currentObject = null;
+            JSONArray apiDataArray;
+            List<JSONObject> myList = null;
+
 
             if (apiData != null)
             {
                 try {
-                    titleTextView.setText(apiData.getString("title"));
-                    channelTextView.setText(apiData.getString("channelTitle"));
-                    youtubeImageObject = (apiData!= null) ? apiData.getJSONObject("thumbnails").getJSONObject("default") : null;
-                    youtubeImage.setImageUrl(youtubeImageObject.getString("url"));
+                    apiDataArray = (apiData!= null) ? apiData.getJSONArray("items") : null;
+                    for (int i = 0; i < apiDataArray.length(); i++)
+                    {
+                        currentObject = (apiDataArray != null) ? apiDataArray.getJSONObject(i).getJSONObject("snippet") : null;
+                        if (myList == null){
+                            myList = new ArrayList<JSONObject>();
+                        }
+                        myList.add(currentObject);
+                    }
                 } catch (JSONException e) {
                     success = false;
                     resultMessage= "Error Setting Up Display";
@@ -170,24 +170,5 @@ public class home extends Activity {
             errorTextView.setTextColor(Color.RED);
         }
         errorTextView.setText(resultMessage);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

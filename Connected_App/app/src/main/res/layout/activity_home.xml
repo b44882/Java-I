@@ -39,11 +39,11 @@
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/searchButton"
             android:layout_toLeftOf="@+id/searchButton"
-            android:layout_weight="0.81" />
+            android:layout_weight="1" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Channel Search"
+            android:text="Search"
             android:id="@+id/searchButton"
             android:layout_alignTop="@+id/searchTextField"
             android:layout_alignParentRight="true"
